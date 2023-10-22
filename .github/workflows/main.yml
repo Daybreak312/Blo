@@ -56,21 +56,17 @@ jobs:
         run: git pull origin main
 
       - name: Git set email
-        run: git configuration --global user.email $EMAIL
+        run: git config --global user.email $EMAIL
         env:
           EMAIL: ${{ secrets.EMAIL }}
 
       - name: Git set name
-        run: git configuration --global user.name $NAME
+        run: git config --global user.name $NAME
         env:
           NAME: ${{ secrets.NAME }}
 
       - name: Git merge 'develop' to 'main' branch
         run: git merge -X theirs --allow-unrelated-histories -m "Auto merge by Github Action" develop
-
-      - name: Log - cat main.yaml
-        run: cat .github/workflows/main.yaml
-        if: always()
 
       - name: Git push 'main' branch
         run: git push
