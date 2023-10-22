@@ -15,31 +15,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Update apt
+      - name: Linux - update apt
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         run: sudo apt-get update
 
-      - name: Install Mysql
+      - name: Mysql - Install
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         run: sudo apt-get install mysql-server
 
-      - name: Mysql start
+      - name: Mysql - mysqld start
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
-        run: mysql -u root
+        run: sudo service mysqld start
 
-      - name: Create Database
+      - name: Mysql - connect
+        if: ${{ !contains(github.event.head_commit.message, '!!') }}
+        run: sudo mysql -u root
+
+      - name: Mysql - create Database
+        if: ${{ !contains(github.event.head_commit.message, '!!') }}
         run: CREATE DATABASE blo;
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
-      - name: Use Database 'blo'
+      - name: Mysql - use database 'blo'
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         run: USE blo;
 
-      - name: Exit in Mysql
+      - name: Mysql - exit
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         run: exit
 
-      - name: JDK Set up to 17
+      - name: Build - jdk set up to 17
         uses: actions/setup-java@v3
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         with:
@@ -47,11 +51,11 @@ jobs:
           distribution: 'oracle'
           cache: 'gradle'
 
-      - name: Gradlew
+      - name: Build - gradlew
         run: chmod +x gradlew
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
-      - name: Build gradle
+      - name: Build - build gradle
         run: ./gradlew --warning-mode=all build
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         env:
@@ -64,33 +68,33 @@ jobs:
           JWT_REFRESH_TOKEN_EXP: ${{ secrets.JWT_REFRESH_TOKEN_EXP }}
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
-      - name: Git remote update
+      - name: Git - remote update
         run: git remote update
 
-      - name: Git change branch to 'develop'
+      - name: Git - change branch to 'develop'
         run: git checkout develop
 
-      - name: Git pull in 'develop' branch
+      - name: Git - pull in 'develop' branch
         run: git pull origin develop
 
-      - name: Git change branch to 'main'
+      - name: Git - change branch to 'main'
         run: git checkout main
 
-      - name: Git pull in 'main' branch
+      - name: Git - pull in 'main' branch
         run: git pull origin main
 
-      - name: Git set email
+      - name: Git - set email
         run: git config --global user.email $EMAIL
         env:
           EMAIL: ${{ secrets.EMAIL }}
 
-      - name: Git set name
+      - name: Git - set name
         run: git config --global user.name $NAME
         env:
           NAME: ${{ secrets.NAME }}
 
-      - name: Git merge 'develop' to 'main' branch
+      - name: Git - merge 'develop' to 'main' branch
         run: git merge -X theirs --allow-unrelated-histories -m "Auto merge by Github Action" develop
 
-      - name: Git push 'main' branch
+      - name: Git - push 'main' branch
         run: git push
