@@ -6,13 +6,16 @@ import com.example.blo.domain.account.port.`in`.AccountProvideUsecase
 import com.example.blo.global.security.auth.Role
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class AccountTests @Autowired constructor(
     private val accountProvideService: AccountProvideUsecase,
@@ -20,9 +23,10 @@ class AccountTests @Autowired constructor(
 ) {
 
     @AfterEach
-    fun afterTests() {
-        initializeSecurityContextAuthentication()
+    @BeforeEach
+    fun initialize() {
         deleteTestAccountInRepository()
+        initializeSecurityContextAuthentication()
     }
 
     @Test
@@ -51,8 +55,7 @@ class AccountTests @Autowired constructor(
     }
 
     fun deleteTestAccountInRepository() {
-        val currentAccount = accountProvideService.getCurrentAccount()
-        accountRepository.deleteAllByAccountId(currentAccount.accountId)
+        accountRepository.deleteAllByAccountId("tester")
     }
 
     fun initializeSecurityContextAuthentication() {
