@@ -22,6 +22,7 @@ class AccountTests @Autowired constructor(
     @AfterEach
     fun afterTests() {
         initializeSecurityContextAuthentication()
+        deleteTestAccountInRepository()
     }
 
     @Test
@@ -51,7 +52,7 @@ class AccountTests @Autowired constructor(
 
     fun deleteTestAccountInRepository() {
         val currentAccount = accountProvideService.getCurrentAccount()
-        accountRepository.deleteByAccountId(currentAccount.accountId)
+        accountRepository.deleteAllByAccountId(currentAccount.accountId)
     }
 
     fun initializeSecurityContextAuthentication() {
