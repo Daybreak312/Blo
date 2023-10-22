@@ -28,7 +28,7 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
       - name: Build gradle
-        run: ./gradlew --warning-mode=all build
+        run: ./gradlew --warning-mode=all --info build
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
         env:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
