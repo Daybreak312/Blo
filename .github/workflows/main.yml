@@ -4,21 +4,30 @@ on:
   push:
     branch: 'develop'
 
-services:
-  mysql:
-    image: mysql:8.0
-    env:
-      MYSQL_DATABASE: blo
-      MYSQL_USER: ${{ secrets.DB_USER }}
-      MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
 jobs:
   build:
     name: CI
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: blo
+          MYSQL_USER: ${{ secrets.DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
     env:
       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_URL: ${{ secrets.DB_URL }}
+      JWT_HEADER: ${{ secrets.JWT_HEADER }}
+      JWT_PREFIX: ${{ secrets.JWT_PREFIX }}
+      JWT_ACCESS_TOKEN_EXP: ${{ secrets.JWT_ACCESS_TOKEN_EXP }}
+      JWT_REFRESH_TOKEN_EXP: ${{ secrets.JWT_REFRESH_TOKEN_EXP }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
     steps:
       - name: Checkout
@@ -39,15 +48,6 @@ jobs:
       - name: Build - build gradle
         run: ./gradlew --warning-mode=all build
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
-        env:
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_URL: ${{ secrets.DB_URL }}
-          JWT_HEADER: ${{ secrets.JWT_HEADER }}
-          JWT_PREFIX: ${{ secrets.JWT_PREFIX }}
-          JWT_ACCESS_TOKEN_EXP: ${{ secrets.JWT_ACCESS_TOKEN_EXP }}
-          JWT_REFRESH_TOKEN_EXP: ${{ secrets.JWT_REFRESH_TOKEN_EXP }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
       - name: Git - remote update
         run: git remote update
