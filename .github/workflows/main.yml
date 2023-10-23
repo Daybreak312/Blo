@@ -30,7 +30,7 @@ jobs:
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
     steps:
-      - name: Checkout
+      - name: Checkout 
         uses: actions/checkout@v3
 
       - name: Mysql - start mysql
