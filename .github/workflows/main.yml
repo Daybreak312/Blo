@@ -29,7 +29,11 @@ jobs:
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
       - name: Mysql - login
-        run: sudo mysql
+        run: sudo mysql -u root -p
+        if: ${{ !contains(github.event.head_commit.message, '!!') }}
+
+      - name: Mysql - login2
+        run: ${{ secrets.DB_PASSWORD }}
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
       - name: Mysql - create database
