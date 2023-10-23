@@ -1,43 +1,34 @@
-package com.example.blo.domain.account
+package com.example.blo.domain.account.functionClass
 
 import com.example.blo.domain.account.entity.Account
 import com.example.blo.domain.account.persistence.AccountRepository
-import com.example.blo.domain.account.port.`in`.AccountProvideUsecase
 import com.example.blo.global.security.auth.Role
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-@SpringBootTest
-class AccountTests @Autowired constructor(
-    private val accountProvideService: AccountProvideUsecase,
+@Component
+class AccountTestFunctionsImpl(
     private val accountRepository: AccountRepository
-) {
+) : AccountTestFunction {
 
     @Transactional
-    @AfterEach
-    @BeforeEach
-    fun initialize() {
+    override fun initialize() {
         deleteTestAccountInRepository()
         initializeSecurityContextAuthentication()
     }
 
-    @Transactional
-    @Test
-    fun accountProvideTest() {
-        val testerAccount = createAndSaveAccount()
-        val gotCurrentAccount = accountProvideService.getCurrentAccount()
-        Assertions.assertEquals(testerAccount.accountId, gotCurrentAccount.accountId)
+    private fun deleteTestAccountInRepository() {
+        accountRepository.deleteAllByAccountId("tester")
     }
 
-    fun createAndSaveAccount(): Account {
+    private fun initializeSecurityContextAuthentication() {
+        SecurityContextHolder.getContext().authentication = null
+    }
+
+    override fun createAndSaveAndReturnAccount(): Account {
         val account = Account(name = "테스터", accountId = "tester", password = "password", role = Role.COMMON)
         saveAccountInRepository(account)
         saveAccountInSecurityContextAuthentication(account)
@@ -53,13 +44,5 @@ class AccountTests @Autowired constructor(
             UsernamePasswordAuthenticationToken(
                 account.accountId, "", mutableListOf(GrantedAuthority { account.role.string })
             )
-    }
-
-    fun deleteTestAccountInRepository() {
-        accountRepository.deleteAllByAccountId("tester")
-    }
-
-    fun initializeSecurityContextAuthentication() {
-        SecurityContextHolder.getContext().authentication = null
     }
 }
