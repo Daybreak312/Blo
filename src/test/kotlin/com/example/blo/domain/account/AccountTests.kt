@@ -15,13 +15,13 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.transaction.annotation.Transactional
 
-@Transactional
 @SpringBootTest
 class AccountTests @Autowired constructor(
     private val accountProvideService: AccountProvideUsecase,
     private val accountRepository: AccountRepository
 ) {
 
+    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
@@ -29,6 +29,7 @@ class AccountTests @Autowired constructor(
         initializeSecurityContextAuthentication()
     }
 
+    @Transactional
     @Test
     fun accountProvideTest() {
         val testerAccount = createAndSaveAccount()
