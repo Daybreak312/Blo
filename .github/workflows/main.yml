@@ -30,7 +30,7 @@ jobs:
           host port: 3306
           container port: 3306
           mysql database: 'blo'
-          mysql username: ${{ secrets.DB_USERNAME }}
+          mysql user: ${{ secrets.DB_USERNAME }}
           mysql password: ${{ secrets.DB_PASSWORD }}
 
       - name: Build - jdk set up to 17
