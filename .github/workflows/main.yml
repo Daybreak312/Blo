@@ -9,15 +9,6 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: blo
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-
     env:
       GITHUB_TOKEN: ${{ secrets.TOKEN }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -30,15 +21,23 @@ jobs:
       JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
     steps:
-      - name: Checkout 
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Mysql - start mysql
         run: sudo service mysql start
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
-      - name: Mysql - version check
-        run: sudo mysql --version
+      - name: Mysql - login
+        run: sudo mysql -u ${{ secrets.DB_USERNAME }}
+        if: ${{ !contains(github.event.head_commit.message, '!!') }}
+
+      - name: Mysql - creaet database
+        run: CREATE DATABASE blo;
+        if: ${{ !contains(github.event.head_commit.message, '!!') }}
+
+      - name: Mysql - exit
+        run: exit
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
       - name: Build - jdk set up to 17
