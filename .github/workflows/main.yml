@@ -25,8 +25,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Mysql - start mysql
-        run: sudo service mysql start
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          mysql database: 'blo'
+          mysql username: ${{ secrets.DB_USERNAME }}
+          mysql password: ${{ secrets.DB_PASSWORD }}
 
       - name: Build - jdk set up to 17
         uses: actions/setup-java@v3
