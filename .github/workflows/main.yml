@@ -15,8 +15,6 @@ jobs:
         env:
           MYSQL_DATABASE: blo
           MYSQL_USER: ${{ secrets.DB_USER }}
-          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     env:
       GITHUB_TOKEN: ${{ secrets.TOKEN }}
