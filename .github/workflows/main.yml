@@ -28,22 +28,6 @@ jobs:
         run: sudo service mysql start
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
 
-      - name: Mysql - login
-        run: sudo mysql -u root -p
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
-
-      - name: Mysql - login2
-        run: ${{ secrets.DB_PASSWORD }}
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
-
-      - name: Mysql - create database
-        run: CREATE DATABASE blo;
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
-
-      - name: Mysql - exit
-        run: exit
-        if: ${{ !contains(github.event.head_commit.message, '!!') }}
-
       - name: Build - jdk set up to 17
         uses: actions/setup-java@v3
         if: ${{ !contains(github.event.head_commit.message, '!!') }}
