@@ -3,8 +3,8 @@ spring:
     url: ${DB_URL}
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
     hibernate:
