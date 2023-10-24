@@ -1,12 +1,12 @@
 package com.example.blo.domain.account.service
 
 import com.example.blo.domain.account.persistence.AccountRepository
-import com.example.blo.domain.account.port.`in`.CustomUserDetailsUsecase
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.stereotype.Service
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.stereotype.Component
 
-@Service
-class CustomUserDetailsInteractor(val accountRepository: AccountRepository) : CustomUserDetailsUsecase {
+@Component
+class LoadAccountService(val accountRepository: AccountRepository) : UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails? =
         username?.let { accountRepository.findByAccountId(it) as UserDetails }
 }
