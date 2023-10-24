@@ -26,7 +26,7 @@ class AccountProviderTests @Autowired constructor(
     @Transactional
     @Test
     fun accountProvideTest() {
-        val testerAccount = function.createAndSaveAndReturnAccount()
+        val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
         val gotCurrentAccount = accountProvideService.getCurrentAccount()
         Assertions.assertEquals(testerAccount.accountId, gotCurrentAccount.accountId)
     }

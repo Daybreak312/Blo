@@ -20,10 +20,10 @@ class TokenProvideInteractor(
         )
 
     private fun createAccessTokenWithPrefix(accountId: String): String =
-        jwtProperty.prefix + createTokenWithSubject(accountId)
+        createTokenWithSubject(accountId)
 
     private fun createRefreshTokenWithPrefix(): String =
-        jwtProperty.prefix + createTokenWithoutSubject()
+        createTokenWithoutSubject()
 
     private fun createTokenWithSubject(accountId: String): String {
         val currentDate = Date()

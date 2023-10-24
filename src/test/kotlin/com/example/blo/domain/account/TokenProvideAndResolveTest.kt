@@ -1,6 +1,7 @@
 package com.example.blo.domain.account
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
+import com.example.blo.global.security.jwt.env.JwtProperty
 import com.example.blo.global.security.jwt.port.`in`.TokenProvideUsecase
 import com.example.blo.global.security.jwt.port.`in`.TokenResolveUsecase
 import org.junit.jupiter.api.AfterEach
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 class TokenProvideAndResolveTest @Autowired constructor(
+    private val jwtProperty: JwtProperty,
     private val function: AccountTestFunction,
     private val tokenProvider: TokenProvideUsecase,
     private val tokenResolver: TokenResolveUsecase
@@ -27,9 +29,9 @@ class TokenProvideAndResolveTest @Autowired constructor(
 
     @Test
     fun tokenProvideAndResolveTest() {
-        val account = function.createAndSaveAndReturnAccount()
+        val account = function.createAndSaveInDBContextAndReturnAccount()
         val token = tokenProvider.createToken(account.accountId)
-        val accountIdInToken = tokenResolver.resolveTokenToAccountId(token.accessToken)
+        val accountIdInToken = tokenResolver.resolveTokenToAccountId(jwtProperty.prefix + token.accessToken)
 
         Assertions.assertEquals(account.accountId, accountIdInToken)
     }

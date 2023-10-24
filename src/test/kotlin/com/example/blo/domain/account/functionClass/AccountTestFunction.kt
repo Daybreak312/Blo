@@ -4,5 +4,7 @@ import com.example.blo.domain.account.entity.Account
 
 interface AccountTestFunction {
     fun initialize()
-    fun createAndSaveAndReturnAccount(): Account
+    fun createAndReturnAccount(): Account
+    fun createAndSaveInDBAndReturnAccount(): Account
+    fun createAndSaveInDBContextAndReturnAccount(): Account
 }
