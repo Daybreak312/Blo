@@ -42,7 +42,7 @@ class AccountTestFunctionsImpl(
     fun saveAccountInSecurityContextAuthentication(account: Account) {
         SecurityContextHolder.getContext().authentication =
             UsernamePasswordAuthenticationToken(
-                account.accountId, "", mutableListOf(GrantedAuthority { account.role.string })
+                account.accountId, "", mutableListOf(GrantedAuthority { account.role.name })
             )
     }
 }
