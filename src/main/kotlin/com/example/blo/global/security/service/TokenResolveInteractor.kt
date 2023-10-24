@@ -18,8 +18,8 @@ class TokenResolveInteractor(
 
     override fun resolveTokenToAccountId(accessToken: String): String {
         verifyIsBearerToken(accessToken)
-        accessToken.removePrefix()
-        return getAccountId(accessToken)
+        val accessTokenWithoutPrefix = removePrefix(accessToken)
+        return getAccountId(accessTokenWithoutPrefix)
     }
 
     private fun verifyIsBearerToken(token: String) {
@@ -27,8 +27,8 @@ class TokenResolveInteractor(
             throw TokenWithoutPrefixException
     }
 
-    private fun String.removePrefix(): String {
-        return this.substring(jwtProperty.prefix.length)
+    private fun removePrefix(tokenWithPrefix: String): String {
+        return tokenWithPrefix.substring(jwtProperty.prefix.length)
     }
 
     private fun getAccountId(token: String): String {
