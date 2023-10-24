@@ -44,7 +44,7 @@ class Account(
 
     override fun getUsername(): String = this.accountId
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-        mutableListOf(GrantedAuthority { this.role.string })
+        mutableListOf(GrantedAuthority { this.role.name })
 
     override fun isCredentialsNonExpired(): Boolean = false
     override fun isAccountNonExpired(): Boolean = !this.isBanned && !this.isDeleted
