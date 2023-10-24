@@ -3,7 +3,7 @@ package com.example.blo.global.security.service
 import com.example.blo.global.security.jwt.env.JwtProperty
 import com.example.blo.global.security.jwt.port.`in`.TokenResolveUsecase
 import com.example.blo.global.security.service.exception.ExpiredTokenException
-import com.example.blo.global.security.service.exception.NotBearerTokenException
+import com.example.blo.global.security.service.exception.TokenWithoutPrefixException
 import com.example.blo.global.security.service.exception.NotJwtTokenException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
@@ -24,7 +24,7 @@ class TokenResolveInteractor(
 
     private fun verifyIsBearerToken(token: String) {
         if (!token.startsWith(jwtProperty.prefix))
-            throw NotBearerTokenException
+            throw TokenWithoutPrefixException
     }
 
     private fun String.removePrefix(): String {
