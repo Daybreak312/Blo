@@ -17,5 +17,8 @@ enum class ErrorCode(
     // Token
     TOKEN_WITHOUT_PREFIX(HttpStatus.BAD_REQUEST, "토큰이 정해진 접두사를 가지고 있지 않습니다."),
     NOT_JWT_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰이 아닙니다."),
-    EXPIRED_TOKEN(HttpStatus.FORBIDDEN, "만료된 토큰입니다.")
+    EXPIRED_TOKEN(HttpStatus.FORBIDDEN, "만료된 토큰입니다."),
+
+    // Validation
+    VALIDATION_FAIL(HttpStatus.SERVICE_UNAVAILABLE, "테스트 과정에서 유효성 검증이 실패했습니다.")
 }
