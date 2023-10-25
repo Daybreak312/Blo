@@ -9,6 +9,10 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis
+
     env:
       GITHUB_TOKEN: ${{ secrets.TOKEN }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
@@ -32,6 +36,8 @@ jobs:
           mysql database: 'blo'
           mysql user: ${{ secrets.DB_USERNAME }}
           mysql password: ${{ secrets.DB_PASSWORD }}
+
+      - name: Redis - start redis
 
       - name: Build - jdk set up to 17
         uses: actions/setup-java@v3
