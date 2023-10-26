@@ -17,12 +17,12 @@ class TokenResolveInteractor(
 ) : TokenResolveUsecase {
 
     override fun resolveAccessTokenToAccountId(accessToken: String): String {
-        verifyIsBearerToken(accessToken)
         val accessTokenWithoutPrefix = removePrefix(accessToken)
         return getAccountId(accessTokenWithoutPrefix)
     }
 
     override fun removePrefix(tokenWithPrefix: String): String {
+        verifyIsBearerToken(tokenWithPrefix)
         return tokenWithPrefix.substring(jwtProperty.prefix.length)
     }
 
