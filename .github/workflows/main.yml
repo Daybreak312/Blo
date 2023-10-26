@@ -2,7 +2,7 @@ name: Blo main workflow
 
 on:
   push:
-    branch: 'develop'
+    branches: ['develop']
 
 jobs:
   build:
