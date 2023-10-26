@@ -31,7 +31,7 @@ class TokenProvideAndResolveTest @Autowired constructor(
     fun tokenProvideAndResolveTest() {
         val account = function.createAndSaveInDBContextAndReturnAccount()
         val token = tokenProvider.createToken(account.accountId)
-        val accountIdInToken = tokenResolver.resolveTokenToAccountId(jwtProperty.prefix + token.accessToken)
+        val accountIdInToken = tokenResolver.resolveAccessTokenToAccountId(jwtProperty.prefix + token.accessToken)
 
         Assertions.assertEquals(account.accountId, accountIdInToken)
     }

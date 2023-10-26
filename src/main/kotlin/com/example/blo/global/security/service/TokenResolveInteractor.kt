@@ -16,19 +16,19 @@ class TokenResolveInteractor(
     private val jwtProperty: JwtProperty
 ) : TokenResolveUsecase {
 
-    override fun resolveTokenToAccountId(accessToken: String): String {
+    override fun resolveAccessTokenToAccountId(accessToken: String): String {
         verifyIsBearerToken(accessToken)
         val accessTokenWithoutPrefix = removePrefix(accessToken)
         return getAccountId(accessTokenWithoutPrefix)
     }
 
+    override fun removePrefix(tokenWithPrefix: String): String {
+        return tokenWithPrefix.substring(jwtProperty.prefix.length)
+    }
+
     private fun verifyIsBearerToken(token: String) {
         if (!token.startsWith(jwtProperty.prefix))
             throw TokenWithoutPrefixException
-    }
-
-    private fun removePrefix(tokenWithPrefix: String): String {
-        return tokenWithPrefix.substring(jwtProperty.prefix.length)
     }
 
     private fun getAccountId(token: String): String {

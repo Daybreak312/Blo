@@ -30,7 +30,7 @@ class TokenFilter(
     ) {
         if (checkNeedAuthenticationUrl(request)) {
             val authenticationHeader = getAuthenticationHeader(request)
-            val accountId = tokenResolver.resolveTokenToAccountId(authenticationHeader)
+            val accountId = tokenResolver.resolveAccessTokenToAccountId(authenticationHeader)
             val account = findAccountByAccountId(accountId) ?: throw AccountNotFoundException
             saveInSecurityContext(account)
         }
