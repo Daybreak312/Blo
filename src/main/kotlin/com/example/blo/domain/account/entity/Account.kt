@@ -14,13 +14,18 @@ class Account(
     introduction: String? = null,
     id: Long? = null
 ) : UserDetails {
+
     @Column(length = 100)
     var name: String = name
 
     @Column(length = 200)
-    var accountId: String = accountId // Authentication.name
+    var accountId: String = accountId
 
     private var password: String = password
+    override fun getPassword(): String = this.password
+    fun setPassword(password: String) {
+        this.password = password
+    }
 
     @Column(length = 200)
     var introduction: String? = introduction
@@ -38,9 +43,6 @@ class Account(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     val id: Long? = id
-
-    override fun getPassword(): String = this.password
-    fun setPassword(password: String) { this.password = password }
 
     override fun getUsername(): String = this.accountId
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
