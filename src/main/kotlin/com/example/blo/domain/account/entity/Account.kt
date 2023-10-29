@@ -1,5 +1,6 @@
 package com.example.blo.domain.account.entity
 
+import com.example.blo.env.TableNameEnv
 import com.example.blo.global.security.auth.Role
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
@@ -8,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE ACCOUNT SET is_deleted = true WHERE id = ?")
-@Entity(name = "TBL_ACCOUNT")
+@SQLDelete(sql = "UPDATE ${TableNameEnv.accountTable} SET is_deleted = true WHERE id = ?")
+@Entity(name = TableNameEnv.accountTable)
 class Account(
     name: String,
     accountId: String,
