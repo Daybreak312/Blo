@@ -7,6 +7,7 @@ enum class ErrorCode(
 ) {
     // Account
     ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "찾을 수 없는 계정입니다."),
+    ACCOUNT_NO_PERMISSION(HttpStatus.FORBIDDEN, "해당 계정에 접근할 수 있는 권한이 없습니다."),
 
     // Auth
     SECURITY_CONTEXT_EMPTY(HttpStatus.NOT_FOUND, "시큐리티 컨텍스트가 비어있습니다."),

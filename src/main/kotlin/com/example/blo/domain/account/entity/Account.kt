@@ -1,10 +1,14 @@
 package com.example.blo.domain.account.entity
 
 import com.example.blo.global.security.auth.Role
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Where
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE ACCOUNT SET is_deleted = true WHERE id = ?")
 @Entity
 class Account(
     name: String,
