@@ -40,6 +40,23 @@ class AccountTests @Autowired constructor(
 
     @Transactional
     @Test
+    fun userDetailsServiceTest() {
+        val testerAccount = function.createAndSaveInDBAndReturnAccount()
+        val loadedAccount = loadAccountService.loadUserByUsername(testerAccount.accountId)
+        Assertions.assertNotNull(loadedAccount)
+    }
+
+    @Transactional
+    @Test
+    fun userDetailsServiceLoadNotExistsAccount() {
+        Assertions.assertThrows(
+            AccountNotFoundException::class.java,
+            fun() { loadAccountService.loadUserByUsername("@") }
+        )
+    }
+
+    @Transactional
+    @Test
     fun accountDeleteTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
         accountService.deleteAccount(AccountDeleteRequest(testerAccount.accountId))
