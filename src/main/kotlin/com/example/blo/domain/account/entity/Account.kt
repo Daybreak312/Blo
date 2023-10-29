@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Where(clause = "is_deleted = false")
 @SQLDelete(sql = "UPDATE ACCOUNT SET is_deleted = true WHERE id = ?")
-@Entity
+@Entity(name = "TBL_ACCOUNT")
 class Account(
     name: String,
     accountId: String,
