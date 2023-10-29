@@ -1,6 +1,7 @@
 package com.example.blo.domain.account
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
+import com.example.blo.domain.account.persistence.AccountRepository
 import com.example.blo.domain.account.port.`in`.AccountUsecase
 import com.example.blo.domain.account.port.`in`.CurrentAccountProvideUsecase
 import com.example.blo.domain.account.presentation.dto.request.AccountDeleteRequest
@@ -20,7 +21,7 @@ class AccountTests @Autowired constructor(
     private val function: AccountTestFunction,
     private val accountService: AccountUsecase,
     private val accountProvideService: CurrentAccountProvideUsecase,
-    private val loadAccountService: UserDetailsService
+    private val accountRepository: AccountRepository
 ) {
 
     @Transactional
@@ -38,32 +39,15 @@ class AccountTests @Autowired constructor(
         Assertions.assertEquals(testerAccount.accountId, gotCurrentAccount.accountId)
     }
 
-    @Transactional
-    @Test
-    fun userDetailsServiceTest() {
-        val testerAccount = function.createAndSaveInDBAndReturnAccount()
-        val loadedAccount = loadAccountService.loadUserByUsername(testerAccount.accountId)
-        Assertions.assertNotNull(loadedAccount)
-    }
 
-    @Transactional
-    @Test
-    fun userDetailsServiceLoadNotExistsAccount() {
-        Assertions.assertThrows(
-            AccountNotFoundException::class.java,
-            fun() { loadAccountService.loadUserByUsername("@") }
-        )
-    }
 
     @Transactional
     @Test
     fun accountDeleteTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
         accountService.deleteAccount(AccountDeleteRequest(testerAccount.accountId))
-        Assertions.assertThrows(
-            AccountNotFoundException::class.java,
-            fun() { loadAccountService.loadUserByUsername(testerAccount.accountId) }
-        )
+        val foundAccount = accountRepository.findByAccountId(testerAccount.accountId)
+        Assertions.assertNull(foundAccount)
     }
 
     @Transactional

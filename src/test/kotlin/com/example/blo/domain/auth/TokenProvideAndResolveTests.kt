@@ -1,4 +1,4 @@
-package com.example.blo.domain.account
+package com.example.blo.domain.auth
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
 import com.example.blo.global.security.jwt.env.JwtProperty
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-class TokenProvideAndResolveTest @Autowired constructor(
+class TokenProvideAndResolveTests @Autowired constructor(
     private val jwtProperty: JwtProperty,
     private val function: AccountTestFunction,
     private val tokenProvider: TokenProvideUsecase,

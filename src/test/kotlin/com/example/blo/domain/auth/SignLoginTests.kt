@@ -1,4 +1,4 @@
-package com.example.blo.domain.account
+package com.example.blo.domain.auth
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
 import com.example.blo.domain.account.persistence.AccountRepository
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-class SignLoginTest @Autowired constructor(
+class SignLoginTests @Autowired constructor(
     private val function: AccountTestFunction,
     private val authService: AuthUsecase,
     private val accountRepository: AccountRepository
