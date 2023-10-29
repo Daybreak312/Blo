@@ -1,13 +1,13 @@
 package com.example.blo.global.security.jwt.filter
 
 import com.example.blo.domain.account.entity.Account
+import com.example.blo.domain.account.persistence.AccountRepository
 import com.example.blo.domain.account.service.exception.AccountNotFoundException
 import com.example.blo.global.security.jwt.env.JwtProperty
 import com.example.blo.global.security.jwt.port.`in`.TokenResolveUsecase
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class TokenFilter(
     private val tokenResolver: TokenResolveUsecase,
-    private val loadAccountService: UserDetailsService,
+    private val accountRepository: AccountRepository,
     private val jwtProperty: JwtProperty
 ) : OncePerRequestFilter() {
 
@@ -45,7 +45,7 @@ class TokenFilter(
         request.getHeader(jwtProperty.header)
 
     private fun findAccountByAccountId(accountId: String): Account? =
-        loadAccountService.loadUserByUsername(accountId) as Account?
+        accountRepository.findByAccountId(accountId)
 
     private fun saveInSecurityContext(account: Account) {
         SecurityContextHolder.getContext().authentication =
