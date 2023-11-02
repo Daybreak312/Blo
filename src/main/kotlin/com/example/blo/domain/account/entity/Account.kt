@@ -23,7 +23,7 @@ class Account(
     @Column(length = 100)
     var name: String = name
 
-    @Column(length = 200)
+    @Column(unique = true, length = 200)
     var accountId: String = accountId
 
     private var password: String = password
@@ -33,7 +33,7 @@ class Account(
     }
 
     @Column(length = 200)
-    var introduction: String? = introduction
+    var introduction: String = introduction ?: ""
 
     @Column(length = 5)
     val role: Role = role

@@ -15,10 +15,10 @@ class AccountController(
 ) {
 
     @DeleteMapping("/delete")
-    fun accountDelete(request: AccountDeleteRequest) =
+    fun accountDelete(request: AccountDeleteRequest): Unit =
         commonAccountService.deleteAccount(request)
 
     @PutMapping("/dormant")
-    fun accountDormant(request: AccountDormantRequest) =
+    fun accountDormant(request: AccountDormantRequest): Unit =
         commonAccountService.dormantAccount(request)
 }
