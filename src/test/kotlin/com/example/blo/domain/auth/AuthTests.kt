@@ -7,11 +7,15 @@ import com.example.blo.domain.auth.port.`in`.AuthUsecase
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.MethodOrderer
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @SpringBootTest
 class AuthTests @Autowired constructor(
     private val accountTestFunction: AccountTestFunction,
@@ -27,6 +31,8 @@ class AuthTests @Autowired constructor(
         accountTestFunction.initialize()
     }
 
+    @Transactional
+    @Order(1)
     @Test
     fun signTest() {
         val signRequest = authTestFunction.createSignRequest()
@@ -37,6 +43,8 @@ class AuthTests @Autowired constructor(
         )
     }
 
+    @Transactional
+    @Order(2)
     @Test
     fun loginTest() {
         accountTestFunction.createAndSaveInDBAndReturnAccount()

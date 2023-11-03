@@ -4,14 +4,12 @@ import com.example.blo.domain.account.functionClass.AccountTestFunction
 import com.example.blo.global.security.jwt.env.JwtProperty
 import com.example.blo.global.security.jwt.port.`in`.TokenProvideUsecase
 import com.example.blo.global.security.jwt.port.`in`.TokenResolveUsecase
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @SpringBootTest
 class TokenProvideAndResolveTests @Autowired constructor(
     private val jwtProperty: JwtProperty,
@@ -27,6 +25,7 @@ class TokenProvideAndResolveTests @Autowired constructor(
         function.initialize()
     }
 
+    @Order(0)
     @Test
     fun tokenProvideAndResolveTest() {
         val account = function.createAndSaveInDBContextAndReturnAccount()
