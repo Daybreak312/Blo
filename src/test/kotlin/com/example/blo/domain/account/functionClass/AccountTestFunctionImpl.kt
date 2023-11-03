@@ -2,7 +2,7 @@ package com.example.blo.domain.account.functionClass
 
 import com.example.blo.domain.account.entity.Account
 import com.example.blo.domain.account.persistence.AccountRepository
-import com.example.blo.env.TesterAccountEnv
+import com.example.blo.env.AccountTestEnv
 import com.example.blo.global.security.auth.Role
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
@@ -33,9 +33,9 @@ class AccountTestFunctionImpl(
 
     override fun createAndReturnAccount(): Account =
         Account(
-            name = TesterAccountEnv.NAME,
-            accountId = TesterAccountEnv.ACCOUNT_ID,
-            password = passwordEncoder.encode(TesterAccountEnv.PASSWORD),
+            name = AccountTestEnv.NAME,
+            accountId = AccountTestEnv.ACCOUNT_ID,
+            password = passwordEncoder.encode(AccountTestEnv.PASSWORD),
             role = Role.COMMON
         )
 

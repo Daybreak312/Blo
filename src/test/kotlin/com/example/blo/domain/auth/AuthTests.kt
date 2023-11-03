@@ -2,10 +2,8 @@ package com.example.blo.domain.auth
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
 import com.example.blo.domain.account.persistence.AccountRepository
+import com.example.blo.domain.auth.function.AuthTestFunction
 import com.example.blo.domain.auth.port.`in`.AuthUsecase
-import com.example.blo.domain.auth.presentation.dto.request.LoginRequest
-import com.example.blo.domain.auth.presentation.dto.request.SignRequest
-import com.example.blo.env.TesterAccountEnv
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -15,8 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-class SignLoginTests @Autowired constructor(
-    private val function: AccountTestFunction,
+class AuthTests @Autowired constructor(
+    private val accountTestFunction: AccountTestFunction,
+    private val authTestFunction: AuthTestFunction,
     private val authService: AuthUsecase,
     private val accountRepository: AccountRepository
 ) {
@@ -25,12 +24,12 @@ class SignLoginTests @Autowired constructor(
     @AfterEach
     @BeforeEach
     fun initialize() {
-        function.initialize()
+        accountTestFunction.initialize()
     }
 
     @Test
     fun signTest() {
-        val signRequest = createSignRequest()
+        val signRequest = authTestFunction.createSignRequest()
         authService.sign(signRequest)
 
         Assertions.assertTrue(
@@ -38,25 +37,11 @@ class SignLoginTests @Autowired constructor(
         )
     }
 
-    fun createSignRequest() =
-        SignRequest(
-            name = TesterAccountEnv.NAME,
-            accountId = TesterAccountEnv.ACCOUNT_ID,
-            password = TesterAccountEnv.PASSWORD,
-            reenteredPassword = TesterAccountEnv.PASSWORD
-        )
-
     @Test
     fun loginTest() {
-        function.createAndSaveInDBAndReturnAccount()
+        accountTestFunction.createAndSaveInDBAndReturnAccount()
 
-        val loginRequest = createLoginRequest()
+        val loginRequest = authTestFunction.createLoginRequest()
         authService.login(loginRequest)
     }
-
-    fun createLoginRequest() =
-        LoginRequest(
-            accountId = TesterAccountEnv.ACCOUNT_ID,
-            password = TesterAccountEnv.PASSWORD
-        )
 }

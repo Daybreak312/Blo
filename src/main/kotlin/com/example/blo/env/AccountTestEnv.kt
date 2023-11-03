@@ -1,6 +1,6 @@
 package com.example.blo.env
 
-object TesterAccountEnv {
+object AccountTestEnv {
 
     const val NAME = "테스터ㅌㅅㅌ"
     const val ACCOUNT_ID = "tester"
