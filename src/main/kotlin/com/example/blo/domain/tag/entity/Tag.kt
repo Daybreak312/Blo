@@ -4,7 +4,7 @@ import com.example.blo.domain.account.entity.Account
 import com.example.blo.env.TableNameEnv
 import javax.persistence.*
 
-@Entity
+@Entity(name = TableNameEnv.tagTable)
 data class Tag(
     @Column(length = 30)
     val name: String,
