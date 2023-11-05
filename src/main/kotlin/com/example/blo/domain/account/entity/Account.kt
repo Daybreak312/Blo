@@ -39,7 +39,7 @@ class Account(
     @Column(length = 5)
     val role: Role = role
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "opener")
     val blogs: List<Blog> = arrayListOf()
 
     var isBanned: Boolean = false
