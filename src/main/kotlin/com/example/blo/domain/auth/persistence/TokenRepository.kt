@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface TokenRepository : CrudRepository<RefreshTokenForSave, String> {
     fun findByToken(token: String): RefreshTokenForSave
+    fun deleteByToken(token: String)
 }
