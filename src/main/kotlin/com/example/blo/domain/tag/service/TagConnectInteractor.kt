@@ -33,7 +33,7 @@ class TagConnectInteractor(
         tagRepository.findByName(tagName) ?: createTag(tagName)
 
     private fun createTag(tagName: String): Tag =
-        Tag(tagName, currentAccountProvider.getCurrentAccount())
+        tagRepository.save(Tag(tagName, currentAccountProvider.getCurrentAccount()))
 
     private fun createBlogTagJoiners(blog: Blog, tags: List<Tag>): List<BlogTagJoiner> =
         tags.map { BlogTagJoiner(blog = blog, tag = it) }
