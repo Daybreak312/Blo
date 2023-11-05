@@ -28,9 +28,6 @@ class Blog(
     var todayVisitCount: Long = 0
         protected set
 
-    @OneToMany(mappedBy = "blog_id")
-    val tagList: List<Tag> = arrayListOf()
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
