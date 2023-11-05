@@ -1,5 +1,6 @@
 package com.example.blo.domain.account.entity
 
+import com.example.blo.domain.blog.entity.Blog
 import com.example.blo.env.TableNameEnv
 import com.example.blo.global.security.auth.Role
 import org.hibernate.annotations.SQLDelete
@@ -37,6 +38,9 @@ class Account(
 
     @Column(length = 5)
     val role: Role = role
+
+    @OneToMany(mappedBy = "account_id")
+    val blogs: List<Blog> = arrayListOf()
 
     var isBanned: Boolean = false
 
