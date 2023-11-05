@@ -1,8 +1,8 @@
 package com.example.blo.domain.blog.entity
 
 import com.example.blo.domain.account.entity.Account
-import com.example.blo.domain.tag.entity.Tag
 import com.example.blo.env.TableNameEnv
+import com.example.blo.global.base.entity.BaseTimeEntity
 import javax.persistence.*
 
 @Entity(name = TableNameEnv.blogTable)
@@ -13,7 +13,7 @@ class Blog(
     @ManyToOne
     @JoinColumn(name = "account_id")
     val opener: Account
-) {
+) : BaseTimeEntity() {
     @Column(unique = true, length = 30)
     var name: String = name
         protected set
