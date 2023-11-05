@@ -10,7 +10,7 @@ enum class ErrorCode(
     ACCOUNT_NO_PERMISSION(HttpStatus.FORBIDDEN, "해당 계정에 접근할 수 있는 권한이 없습니다."),
 
     // Auth
-    SECURITY_CONTEXT_EMPTY(HttpStatus.NOT_FOUND, "시큐리티 컨텍스트가 비어있습니다."),
+    SECURITY_CONTEXT_EMPTY(HttpStatus.UNAUTHORIZED, "시큐리티 컨텍스트가 비어있습니다."),
     IN_USE_ACCOUNT_ID(HttpStatus.CONFLICT, "사용하려는 아이디가 이미 사용중인 아이디입니다."),
     PASSWORD_NOT_EQUALS_REENTERED(HttpStatus.BAD_REQUEST, "비밀번호와 재입력한 비밀번호가 다릅니다."),
     PASSWORD_MISMATCH(HttpStatus.FORBIDDEN, "로그인하려는 계정과 비밀번호가 일치하지 않습니다."),
