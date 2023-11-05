@@ -88,5 +88,5 @@ class AuthInteractor(
     }
 
     private fun translateTokenToResponse(token: Token): TokenResponse =
-        TokenResponse(token.accessToken, token.refreshToken)
+        TokenResponse.of(token)
 }

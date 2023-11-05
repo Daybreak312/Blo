@@ -18,11 +18,12 @@ class TokenReissueInteractor(
     override fun reissue(request: ReissueRequest): TokenResponse {
         val refreshTokenWithoutPrefix = tokenResolver.removePrefix(request.refreshToken)
         val savedRefreshToken = tokenRepository.findByToken(refreshTokenWithoutPrefix)
+        tokenRepository.deleteByToken(refreshTokenWithoutPrefix)
         return createTokenResponse(savedRefreshToken.accountId)
     }
 
     private fun createTokenResponse(accountId: String): TokenResponse {
         val token = tokenProvider.createToken(accountId)
-        return TokenResponse(accessToken = token.accessToken, refreshToken = token.refreshToken)
+        return TokenResponse.of(token)
     }
 }
