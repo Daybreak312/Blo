@@ -24,7 +24,7 @@ class AccountTestFunctionImpl(
     }
 
     private fun deleteTestAccountInRepository() {
-        accountRepository.deleteByAccountId("tester")
+        accountRepository.deleteByAccountId(AccountTestEnv.ACCOUNT_ID)
     }
 
     private fun initializeSecurityContextAuthentication() {
