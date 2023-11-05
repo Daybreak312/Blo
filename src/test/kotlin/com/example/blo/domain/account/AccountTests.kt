@@ -54,8 +54,8 @@ class AccountTests @Autowired constructor(
         Assertions.assertNull(foundAccount)
     }
 
-    @Order(6)
     @Transactional
+    @Order(7)
     @Test
     fun accountDormantTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
