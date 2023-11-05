@@ -1,6 +1,7 @@
 package com.example.blo.domain.account.entity
 
 import com.example.blo.env.TableNameEnv
+import com.example.blo.global.base.entity.BaseTimeEntity
 import com.example.blo.global.security.auth.Role
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.Where
@@ -18,7 +19,7 @@ class Account(
     role: Role,
     introduction: String? = null,
     id: Long? = null
-) : UserDetails {
+) : UserDetails, BaseTimeEntity() {
 
     @Column(length = 100)
     var name: String = name
