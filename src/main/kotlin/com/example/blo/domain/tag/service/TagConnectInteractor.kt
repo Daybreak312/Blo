@@ -5,21 +5,29 @@ import com.example.blo.domain.blog.entity.Blog
 import com.example.blo.domain.blog.entity.BlogTagJoiner
 import com.example.blo.domain.blog.persistence.BlogTagJoinerRepository
 import com.example.blo.domain.tag.entity.Tag
-import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.domain.tag.persistence.TagRepository
+import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
+import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
 import org.springframework.stereotype.Service
 
 @Service
 class TagConnectInteractor(
     private val tagRepository: TagRepository,
+    private val tagExtractor: TagExtractUsecase,
     private val blogTagJoinerRepository: BlogTagJoinerRepository,
     private val currentAccountProvider: CurrentAccountProvideUsecase
 ) : TagConnectUsecase {
 
     override fun connectTagsToBlog(tagNames: List<String>, blog: Blog) {
+        removeUsedTagsInBlog(tagNames, blog)
         val tags = switchTagNamesToTags(tagNames)
         val blogTagJoiners = createBlogTagJoiners(blog, tags)
         blogTagJoinerRepository.saveAll(blogTagJoiners)
+    }
+
+    private fun removeUsedTagsInBlog(tagNames: List<String>, blog: Blog): List<String> {
+        val blogTagNames: List<String> = tagExtractor.extractTagsInBlog(blog).map { it.name }
+        return tagNames.minus(blogTagNames.toSet())
     }
 
     private fun switchTagNamesToTags(tagNames: List<String>): List<Tag> =
