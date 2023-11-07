@@ -8,19 +8,21 @@ import com.example.blo.domain.tag.entity.Tag
 import com.example.blo.domain.tag.persistence.TagRepository
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
+import com.example.blo.domain.tag.port.`in`.TagNameConvertUsecase
 import org.springframework.stereotype.Service
 
 @Service
 class TagConnectInteractor(
-    private val tagRepository: TagRepository,
     private val tagExtractor: TagExtractUsecase,
+    private val tagNameConverter: TagNameConvertUsecase,
+    private val tagRepository: TagRepository,
     private val blogTagJoinerRepository: BlogTagJoinerRepository,
     private val currentAccountProvider: CurrentAccountProvideUsecase
 ) : TagConnectUsecase {
 
     override fun connectTagsToBlog(tagNames: List<String>, blog: Blog) {
         removeUsedTagsInBlog(tagNames, blog)
-        val tags = switchTagNamesToTags(tagNames)
+        val tags = tagNameConverter.convertTagNamesToTags(tagNames.toSet().toList())
         val blogTagJoiners = createBlogTagJoiners(blog, tags)
         blogTagJoinerRepository.saveAll(blogTagJoiners)
     }
@@ -29,16 +31,6 @@ class TagConnectInteractor(
         val blogTagNames: List<String> = tagExtractor.extractTagsInBlog(blog).map { it.name }
         return tagNames.minus(blogTagNames.toSet())
     }
-
-    private fun switchTagNamesToTags(tagNames: List<String>): List<Tag> =
-        tagNames.map {
-            val tag = switchTagNameToTag(it)
-            tag.addUsedCount()
-            return@map tag
-        }
-
-    private fun switchTagNameToTag(tagName: String): Tag =
-        tagRepository.findByName(tagName) ?: createTag(tagName)
 
     private fun createTag(tagName: String): Tag =
         tagRepository.save(Tag(tagName, currentAccountProvider.getCurrentAccount()))
