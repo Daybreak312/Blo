@@ -4,6 +4,9 @@ import com.example.blo.domain.account.entity.Account
 import com.example.blo.domain.blog.entity.Blog
 import com.example.blo.domain.blog.persistence.BlogRepository
 import com.example.blo.domain.blog.presentation.dto.request.BlogCreateRequest
+import com.example.blo.domain.blog.presentation.dto.request.BlogIntroductionUpdateRequest
+import com.example.blo.domain.blog.presentation.dto.request.BlogNameUpdateRequest
+import com.example.blo.domain.blog.presentation.dto.request.BlogTagUpdateRequest
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.env.BlogTestEnv
 import org.springframework.stereotype.Component
@@ -32,6 +35,18 @@ class BlogTestFunctionImpl(
 
     override fun createBlogCreateRequestWithNullIntroduction(): BlogCreateRequest =
         BlogCreateRequest(BlogTestEnv.NAME, null, BlogTestEnv.TAGS)
+
+    override fun createBlogNameUpdateRequest(): BlogNameUpdateRequest =
+        BlogNameUpdateRequest(BlogTestEnv.NAME_UPDATE)
+
+    override fun createBlogIntroductionUpdateRequest(): BlogIntroductionUpdateRequest =
+        BlogIntroductionUpdateRequest(BlogTestEnv.INTRODUCTION_UPDATE)
+
+    override fun createBlogTagUpdateRequest(): BlogTagUpdateRequest =
+        BlogTagUpdateRequest(BlogTestEnv.TAGS_UPDATE_ADD, BlogTestEnv.TAGS_UPDATE_REMOVE)
+
+    override fun createBlogTagUpdateRequestWithDuplicatedTags(): BlogTagUpdateRequest =
+        BlogTagUpdateRequest(BlogTestEnv.TAGS, listOf())
 
     override fun findTestBlog(): Blog? =
         blogRepository.findByName(BlogTestEnv.NAME)
