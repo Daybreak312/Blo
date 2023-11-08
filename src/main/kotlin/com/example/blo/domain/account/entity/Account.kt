@@ -18,15 +18,17 @@ class Account(
     accountId: String,
     password: String,
     role: Role,
-    introduction: String? = null,
+    introduction: String = "",
     id: Long? = null
 ) : UserDetails, BaseTimeEntity() {
 
     @Column(length = 100)
     var name: String = name
+        protected set
 
     @Column(unique = true, length = 200)
     var accountId: String = accountId
+        protected set
 
     private var password: String = password
     override fun getPassword(): String = this.password
@@ -35,7 +37,8 @@ class Account(
     }
 
     @Column(length = 200)
-    var introduction: String = introduction ?: ""
+    var introduction: String = introduction
+        protected set
 
     @Column(length = 5)
     val role: Role = role
@@ -44,10 +47,19 @@ class Account(
     val blogs: List<Blog> = arrayListOf()
 
     var isBanned: Boolean = false
+        protected set
+    fun banAccount() { this.isBanned = true }
+    fun pardonAccount() { this.isBanned = false }
 
     var isDormant: Boolean = false
+        protected set
+    fun dormantAccount() { this.isDormant = true }
+    fun activeAccount() { this.isDormant = false }
 
     var isDeleted: Boolean = false
+        protected set
+    fun deleteAccount() { this.isDeleted = true }
+    fun restoreAccount() { this.isDeleted = false }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

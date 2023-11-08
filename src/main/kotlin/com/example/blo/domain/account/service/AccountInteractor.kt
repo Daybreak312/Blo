@@ -20,7 +20,7 @@ class AccountInteractor(
 
     override fun dormantAccount(request: AccountDormantRequest) {
         verifyTargetAccountIdEqualsCurrentAccountId(request.accountId)
-        currentAccountProvider.getCurrentAccount().isDormant = true
+        currentAccountProvider.getCurrentAccount().dormantAccount()
     }
 
     private fun verifyTargetAccountIdEqualsCurrentAccountId(accountId: String) {
