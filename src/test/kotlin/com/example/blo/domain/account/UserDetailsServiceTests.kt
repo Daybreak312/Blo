@@ -5,16 +5,12 @@ import com.example.blo.domain.account.service.exception.AccountNotFoundException
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.transaction.annotation.Transactional
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 @SpringBootTest
 class UserDetailsServiceTests @Autowired constructor(
     private val function: AccountTestFunction,
@@ -29,7 +25,6 @@ class UserDetailsServiceTests @Autowired constructor(
     }
 
     @Transactional
-    @Order(3)
     @Test
     fun userDetailsServiceTest() {
         val testerAccount = function.createAndSaveInDBAndReturnAccount()
@@ -38,7 +33,6 @@ class UserDetailsServiceTests @Autowired constructor(
     }
 
     @Transactional
-    @Order(4)
     @Test
     fun userDetailsServiceLoadNotExistsAccount() {
         Assertions.assertThrows(
