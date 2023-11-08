@@ -9,6 +9,7 @@ import com.example.blo.domain.blog.presentation.dto.request.BlogNameUpdateReques
 import com.example.blo.domain.blog.presentation.dto.request.BlogTagUpdateRequest
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.env.BlogTestEnv
+import com.example.blo.env.TagTestEnv
 import org.springframework.stereotype.Component
 
 @Component
@@ -26,15 +27,15 @@ class BlogTestFunctionImpl(
 
     override fun createAndSaveInDBandReturnBlog(account: Account): Blog {
         val blog = createAndReturnBlog(account)
-        tagConnector.connectTagsToBlog(BlogTestEnv.TAGS, blog)
+        tagConnector.connectTagsToBlog(TagTestEnv.TAGS, blog)
         return blogRepository.save(blog)
     }
 
     override fun createBlogCreateRequest(): BlogCreateRequest =
-        BlogCreateRequest(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, BlogTestEnv.TAGS)
+        BlogCreateRequest(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, TagTestEnv.TAGS)
 
     override fun createBlogCreateRequestWithNullIntroduction(): BlogCreateRequest =
-        BlogCreateRequest(BlogTestEnv.NAME, null, BlogTestEnv.TAGS)
+        BlogCreateRequest(BlogTestEnv.NAME, null, TagTestEnv.TAGS)
 
     override fun createBlogNameUpdateRequest(): BlogNameUpdateRequest =
         BlogNameUpdateRequest(BlogTestEnv.NAME_UPDATE)
@@ -43,10 +44,10 @@ class BlogTestFunctionImpl(
         BlogIntroductionUpdateRequest(BlogTestEnv.INTRODUCTION_UPDATE)
 
     override fun createBlogTagUpdateRequest(): BlogTagUpdateRequest =
-        BlogTagUpdateRequest(BlogTestEnv.TAGS_UPDATE_ADD, BlogTestEnv.TAGS_UPDATE_REMOVE)
+        BlogTagUpdateRequest(TagTestEnv.TAGS_UPDATE_ADD, TagTestEnv.TAGS_UPDATE_REMOVE)
 
     override fun createBlogTagUpdateRequestWithDuplicatedTags(): BlogTagUpdateRequest =
-        BlogTagUpdateRequest(BlogTestEnv.TAGS, listOf())
+        BlogTagUpdateRequest(TagTestEnv.TAGS, listOf())
 
     override fun findTestBlog(): Blog? =
         blogRepository.findByName(BlogTestEnv.NAME)

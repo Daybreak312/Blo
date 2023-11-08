@@ -5,8 +5,10 @@ import com.example.blo.domain.blog.function.BlogTestFunction
 import com.example.blo.domain.blog.port.`in`.BlogCreateUsecase
 import com.example.blo.domain.blog.port.`in`.BlogUpdateUsecase
 import com.example.blo.domain.blog.service.exception.BlogNotFoundException
+import com.example.blo.domain.tag.function.TagTestFunction
 import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
 import com.example.blo.env.BlogTestEnv
+import com.example.blo.env.TagTestEnv
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional
 class BlogTests @Autowired constructor(
     private val accountTestFunction: AccountTestFunction,
     private val blogTestFunction: BlogTestFunction,
+    private val tagTestFunction: TagTestFunction,
     private val blogCreateService: BlogCreateUsecase,
     private val blogUpdateService: BlogUpdateUsecase,
     private val tagExtractor: TagExtractUsecase
@@ -30,6 +33,7 @@ class BlogTests @Autowired constructor(
     fun initialize() {
         accountTestFunction.initialize()
         blogTestFunction.initialize()
+        tagTestFunction.initialize()
     }
 
     @Transactional
@@ -42,7 +46,7 @@ class BlogTests @Autowired constructor(
             blog.name == BlogTestEnv.NAME &&
                     blog.introduction == BlogTestEnv.INTRODUCTION &&
                     blog.opener == testerAccount &&
-                    tagExtractor.extractTagsInBlog(blog).map { it.name }.containsAll(BlogTestEnv.TAGS)
+                    tagExtractor.extractTagsInBlog(blog).map { it.name }.containsAll(TagTestEnv.TAGS)
         )
     }
 
@@ -56,7 +60,7 @@ class BlogTests @Autowired constructor(
             blog.name == BlogTestEnv.NAME &&
                     blog.introduction.isBlank() &&
                     blog.opener == testerAccount &&
-                    tagExtractor.extractTagsInBlog(blog).map { it.name }.containsAll(BlogTestEnv.TAGS)
+                    tagExtractor.extractTagsInBlog(blog).map { it.name }.containsAll(TagTestEnv.TAGS)
         )
     }
 
@@ -87,7 +91,7 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogTag(blog.name, blogTestFunction.createBlogTagUpdateRequest())
-        Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, BlogTestEnv.TAGS_UPDATE_RESULT)
+        Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS_UPDATE_RESULT)
     }
 
     @Transactional
@@ -97,6 +101,6 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogTag(blog.name, blogTestFunction.createBlogTagUpdateRequestWithDuplicatedTags())
-        Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, BlogTestEnv.TAGS)
+        Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS)
     }
 }
