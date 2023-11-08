@@ -18,7 +18,7 @@ class Account(
     accountId: String,
     password: String,
     role: Role,
-    introduction: String? = null,
+    introduction: String = "",
     id: Long? = null
 ) : UserDetails, BaseTimeEntity() {
 
@@ -35,7 +35,7 @@ class Account(
     }
 
     @Column(length = 200)
-    var introduction: String = introduction ?: ""
+    var introduction: String = introduction
 
     @Column(length = 5)
     val role: Role = role
