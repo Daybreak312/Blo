@@ -7,4 +7,5 @@ interface AccountTestFunction {
     fun createAndReturnAccount(): Account
     fun createAndSaveInDBAndReturnAccount(): Account
     fun createAndSaveInDBContextAndReturnAccount(): Account
+    fun createAndSaveInDBContextAndReturnAnotherAccount(): Account
 }

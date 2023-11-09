@@ -132,6 +132,7 @@ class BlogTests @Autowired constructor(
     fun verifyMasterOfBlogWhenFalseTest() {
         val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
         val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+        accountTestFunction.createAndSaveInDBContextAndReturnAnotherAccount()
 
         Assertions.assertThrows(BlogNoPermissionException.javaClass, fun() { blogFunction.verifyMasterOfBlog(blog) })
     }
