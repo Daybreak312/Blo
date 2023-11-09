@@ -48,6 +48,7 @@ class BlogTests @Autowired constructor(
         val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
+
         Assertions.assertTrue(
             blog.name == BlogTestEnv.NAME &&
                     blog.introduction == BlogTestEnv.INTRODUCTION &&
@@ -61,6 +62,7 @@ class BlogTests @Autowired constructor(
         val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequestWithNullIntroduction())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
+
         Assertions.assertTrue(
             blog.name == BlogTestEnv.NAME &&
                     blog.introduction.isBlank() &&
@@ -75,6 +77,7 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogName(blog.name, blogTestFunction.createBlogNameUpdateRequest())
+
         Assertions.assertEquals(blog.name, BlogTestEnv.NAME_UPDATE)
     }
 
@@ -84,6 +87,7 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogIntroduction(blog.name, blogTestFunction.createBlogIntroductionUpdateRequest())
+
         Assertions.assertEquals(blog.introduction, BlogTestEnv.INTRODUCTION_UPDATE)
     }
 
@@ -93,6 +97,7 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogTag(blog.name, blogTestFunction.createBlogTagUpdateRequest())
+
         Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS_UPDATE_RESULT)
     }
 
@@ -102,14 +107,15 @@ class BlogTests @Autowired constructor(
         blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogTag(blog.name, blogTestFunction.createBlogTagUpdateRequestWithDuplicatedTags())
+
         Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS)
     }
 
     @Test
     fun blogDeleteTest() {
-        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
-        val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
-        blogDeleteService.deleteBlog(blog.name)
+        accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        blogCreateService.createBlog(blogTestFunction.createBlogCreateRequest())
+        blogDeleteService.deleteBlog(BlogTestEnv.NAME)
 
         Assertions.assertFalse(blogRepository.existsByName(BlogTestEnv.NAME))
     }
