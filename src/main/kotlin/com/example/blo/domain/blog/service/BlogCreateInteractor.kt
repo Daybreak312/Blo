@@ -8,7 +8,9 @@ import com.example.blo.domain.blog.presentation.dto.request.BlogCreateRequest
 import com.example.blo.domain.blog.service.function.BlogFunction
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class BlogCreateInteractor(
     private val function: BlogFunction,

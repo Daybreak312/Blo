@@ -5,9 +5,9 @@ import com.example.blo.domain.account.persistence.AccountRepository
 import com.example.blo.domain.account.port.`in`.CurrentAccountProvideUsecase
 import com.example.blo.global.security.auth.exception.SecurityContextEmptyException
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class CurrentAccountProvideInteractor(
     private val accountRepository: AccountRepository
 ) : CurrentAccountProvideUsecase {

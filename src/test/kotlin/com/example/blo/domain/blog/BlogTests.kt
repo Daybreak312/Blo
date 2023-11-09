@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class BlogTests @Autowired constructor(
     private val accountTestFunction: AccountTestFunction,
@@ -27,7 +28,6 @@ class BlogTests @Autowired constructor(
     private val tagExtractor: TagExtractUsecase
 ) {
 
-    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
@@ -36,7 +36,6 @@ class BlogTests @Autowired constructor(
         tagTestFunction.initialize()
     }
 
-    @Transactional
     @Test
     fun blogCreateTest() {
         val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
@@ -50,7 +49,6 @@ class BlogTests @Autowired constructor(
         )
     }
 
-    @Transactional
     @Test
     fun blogCreateWithNullIntroductionTest() {
         val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
@@ -64,7 +62,6 @@ class BlogTests @Autowired constructor(
         )
     }
 
-    @Transactional
     @Test
     fun blogUpdateNameTest() {
         accountTestFunction.createAndSaveInDBContextAndReturnAccount()
@@ -74,7 +71,6 @@ class BlogTests @Autowired constructor(
         Assertions.assertEquals(blog.name, BlogTestEnv.NAME_UPDATE)
     }
 
-    @Transactional
     @Test
     fun blogUpdateIntroductionTest() {
         accountTestFunction.createAndSaveInDBContextAndReturnAccount()
@@ -84,7 +80,6 @@ class BlogTests @Autowired constructor(
         Assertions.assertEquals(blog.introduction, BlogTestEnv.INTRODUCTION_UPDATE)
     }
 
-    @Transactional
     @Test
     fun blogUpdateTagTest() {
         accountTestFunction.createAndSaveInDBContextAndReturnAccount()
@@ -94,7 +89,6 @@ class BlogTests @Autowired constructor(
         Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS_UPDATE_RESULT)
     }
 
-    @Transactional
     @Test
     fun blogUpdateTagWithDuplicatedTagsTest() {
         accountTestFunction.createAndSaveInDBContextAndReturnAccount()

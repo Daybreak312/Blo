@@ -6,7 +6,9 @@ import com.example.blo.domain.account.presentation.dto.request.AccountDeleteRequ
 import com.example.blo.domain.account.presentation.dto.request.AccountDormantRequest
 import com.example.blo.domain.account.service.exception.AccountNoPermissionException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class AccountInteractor(
     private val currentAccountProvider: CurrentAccountProvideInteractor,

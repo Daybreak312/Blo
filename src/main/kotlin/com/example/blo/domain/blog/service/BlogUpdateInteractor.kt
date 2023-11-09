@@ -10,7 +10,9 @@ import com.example.blo.domain.blog.service.exception.InUseBlogNameException
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.domain.tag.port.`in`.TagDisconnectUsecase
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class BlogUpdateInteractor(
     private val blogRepository: BlogRepository,

@@ -4,9 +4,11 @@ import com.example.blo.domain.account.port.`in`.CurrentAccountProvideUsecase
 import com.example.blo.domain.tag.entity.Tag
 import com.example.blo.domain.tag.persistence.TagRepository
 import com.example.blo.domain.tag.port.`in`.TagNameConvertUsecase
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional
+@Component
 class TagNameConvertInteractor(
     private val tagRepository: TagRepository,
     private val currentAccountProvider: CurrentAccountProvideUsecase

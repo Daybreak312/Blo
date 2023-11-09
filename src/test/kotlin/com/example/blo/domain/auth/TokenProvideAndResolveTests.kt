@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class TokenProvideAndResolveTests @Autowired constructor(
     private val jwtProperty: JwtProperty,
@@ -20,7 +21,6 @@ class TokenProvideAndResolveTests @Autowired constructor(
     private val tokenResolver: TokenResolveUsecase
 ) {
 
-    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
