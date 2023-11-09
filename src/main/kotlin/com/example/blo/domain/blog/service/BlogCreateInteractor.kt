@@ -20,8 +20,8 @@ class BlogCreateInteractor(
     override fun createBlog(request: BlogCreateRequest) {
         function.verifyNotUsedBlogName(request.name)
         val blog = createBlogEntity(request)
-        tagConnector.connectTagsToBlog(request.tagNames, blog)
         blogRepository.save(blog)
+        tagConnector.connectTagsToBlog(request.tagNames, blog)
     }
 
     private fun createBlogEntity(request: BlogCreateRequest): Blog =
