@@ -2,9 +2,13 @@ package com.example.blo.domain.blog
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
 import com.example.blo.domain.blog.function.BlogTestFunction
+import com.example.blo.domain.blog.persistence.BlogRepository
 import com.example.blo.domain.blog.port.`in`.BlogCreateUsecase
+import com.example.blo.domain.blog.port.`in`.BlogDeleteUsecase
 import com.example.blo.domain.blog.port.`in`.BlogUpdateUsecase
+import com.example.blo.domain.blog.service.exception.BlogNoPermissionException
 import com.example.blo.domain.blog.service.exception.BlogNotFoundException
+import com.example.blo.domain.blog.service.function.BlogFunction
 import com.example.blo.domain.tag.function.TagTestFunction
 import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
 import com.example.blo.env.BlogTestEnv
@@ -22,9 +26,12 @@ import org.springframework.transaction.annotation.Transactional
 class BlogTests @Autowired constructor(
     private val accountTestFunction: AccountTestFunction,
     private val blogTestFunction: BlogTestFunction,
+    private val blogFunction: BlogFunction,
     private val tagTestFunction: TagTestFunction,
+    private val blogRepository: BlogRepository,
     private val blogCreateService: BlogCreateUsecase,
     private val blogUpdateService: BlogUpdateUsecase,
+    private val blogDeleteService: BlogDeleteUsecase,
     private val tagExtractor: TagExtractUsecase
 ) {
 
@@ -96,5 +103,30 @@ class BlogTests @Autowired constructor(
         val blog = blogTestFunction.findTestBlog() ?: throw BlogNotFoundException
         blogUpdateService.updateBlogTag(blog.name, blogTestFunction.createBlogTagUpdateRequestWithDuplicatedTags())
         Assertions.assertEquals(tagExtractor.extractTagsInBlog(blog).map { it.name }, TagTestEnv.TAGS)
+    }
+
+    @Test
+    fun blogDeleteTest() {
+        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+        blogDeleteService.deleteBlog(blog.name)
+
+        Assertions.assertFalse(blogRepository.existsByName(BlogTestEnv.NAME))
+    }
+
+    @Test
+    fun verifyMasterOfBlogWhenTrueTest() {
+        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+
+        Assertions.assertDoesNotThrow(fun() { blogFunction.verifyMasterOfBlog(blog) })
+    }
+
+    @Test
+    fun verifyMasterOfBlogWhenFalseTest() {
+        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+
+        Assertions.assertThrows(BlogNoPermissionException.javaClass, fun() { blogFunction.verifyMasterOfBlog(blog) })
     }
 }
