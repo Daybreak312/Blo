@@ -9,9 +9,11 @@ import com.example.blo.domain.tag.persistence.TagRepository
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
 import com.example.blo.domain.tag.port.`in`.TagNameConvertUsecase
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional
+@Component
 class TagConnectInteractor(
     private val tagExtractor: TagExtractUsecase,
     private val tagNameConverter: TagNameConvertUsecase,

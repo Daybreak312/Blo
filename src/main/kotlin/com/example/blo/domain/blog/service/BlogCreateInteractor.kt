@@ -8,7 +8,9 @@ import com.example.blo.domain.blog.presentation.dto.request.BlogCreateRequest
 import com.example.blo.domain.blog.service.function.BlogFunction
 import com.example.blo.domain.tag.port.`in`.TagConnectUsecase
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class BlogCreateInteractor(
     private val function: BlogFunction,
@@ -20,8 +22,8 @@ class BlogCreateInteractor(
     override fun createBlog(request: BlogCreateRequest) {
         function.verifyNotUsedBlogName(request.name)
         val blog = createBlogEntity(request)
-        tagConnector.connectTagsToBlog(request.tagNames, blog)
         blogRepository.save(blog)
+        tagConnector.connectTagsToBlog(request.tagNames, blog)
     }
 
     private fun createBlogEntity(request: BlogCreateRequest): Blog =

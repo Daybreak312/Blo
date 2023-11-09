@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class AuthTests @Autowired constructor(
     private val accountTestFunction: AccountTestFunction,
@@ -20,14 +21,12 @@ class AuthTests @Autowired constructor(
     private val accountRepository: AccountRepository
 ) {
 
-    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
         accountTestFunction.initialize()
     }
 
-    @Transactional
     @Test
     fun signTest() {
         val signRequest = authTestFunction.createSignRequest()
@@ -38,7 +37,6 @@ class AuthTests @Autowired constructor(
         )
     }
 
-    @Transactional
     @Test
     fun loginTest() {
         accountTestFunction.createAndSaveInDBAndReturnAccount()

@@ -11,20 +11,19 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class UserDetailsServiceTests @Autowired constructor(
     private val function: AccountTestFunction,
     private val userDetailsService: UserDetailsService
 ) {
 
-    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
         function.initialize()
     }
 
-    @Transactional
     @Test
     fun userDetailsServiceTest() {
         val testerAccount = function.createAndSaveInDBAndReturnAccount()
@@ -32,7 +31,6 @@ class UserDetailsServiceTests @Autowired constructor(
         Assertions.assertNotNull(loadedAccount)
     }
 
-    @Transactional
     @Test
     fun userDetailsServiceLoadNotExistsAccount() {
         Assertions.assertThrows(

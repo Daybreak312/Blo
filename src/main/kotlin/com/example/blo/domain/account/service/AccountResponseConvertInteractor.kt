@@ -5,9 +5,9 @@ import com.example.blo.domain.account.port.`in`.AccountResponseConvertUsecase
 import com.example.blo.domain.account.presentation.dto.response.AccountDetailResponse
 import com.example.blo.domain.account.presentation.dto.response.AccountSimpleResponse
 import com.example.blo.domain.account.service.exception.AccountNotFoundException
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class AccountResponseConvertInteractor(
     private val accountRepository: AccountRepository
 ) : AccountResponseConvertUsecase {

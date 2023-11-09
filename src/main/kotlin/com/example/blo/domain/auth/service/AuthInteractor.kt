@@ -17,7 +17,9 @@ import com.example.blo.global.security.auth.Role
 import com.example.blo.global.security.jwt.port.`in`.TokenProvideUsecase
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class AuthInteractor(
     private val passwordEncoder: PasswordEncoder,

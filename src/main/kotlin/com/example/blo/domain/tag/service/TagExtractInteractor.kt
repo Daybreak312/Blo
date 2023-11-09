@@ -4,9 +4,11 @@ import com.example.blo.domain.blog.entity.Blog
 import com.example.blo.domain.blog.persistence.BlogTagJoinerRepository
 import com.example.blo.domain.tag.entity.Tag
 import com.example.blo.domain.tag.port.`in`.TagExtractUsecase
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
-@Service
+@Transactional(readOnly = true)
+@Component
 class TagExtractInteractor(
     private val blogTagJoinerRepository: BlogTagJoinerRepository
 ) : TagExtractUsecase {

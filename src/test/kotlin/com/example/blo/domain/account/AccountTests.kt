@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @SpringBootTest
 class AccountTests @Autowired constructor(
     private val function: AccountTestFunction,
@@ -22,14 +23,12 @@ class AccountTests @Autowired constructor(
     private val accountRepository: AccountRepository
 ) {
 
-    @Transactional
     @AfterEach
     @BeforeEach
     fun initialize() {
         function.initialize()
     }
 
-    @Transactional
     @Test
     fun accountProvideTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
@@ -37,7 +36,6 @@ class AccountTests @Autowired constructor(
         Assertions.assertEquals(testerAccount.accountId, gotCurrentAccount.accountId)
     }
 
-    @Transactional
     @Test
     fun accountDeleteTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
@@ -46,7 +44,6 @@ class AccountTests @Autowired constructor(
         Assertions.assertNull(foundAccount)
     }
 
-    @Transactional
     @Test
     fun accountDormantTest() {
         val testerAccount = function.createAndSaveInDBContextAndReturnAccount()
