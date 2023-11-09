@@ -29,11 +29,14 @@ class Account(
     @Column(unique = true, length = 200)
     var accountId: String = accountId
         protected set
+    fun updateAccountId(accountId: String) {
+        this.accountId = accountId
+    }
 
     private var password: String = password
     override fun getPassword(): String = this.password
-    fun setPassword(password: String) {
-        this.password = password
+    fun updatePassword(encodedPassword: String) {
+        this.password = encodedPassword
     }
 
     @Column(length = 200)

@@ -9,7 +9,6 @@ import com.example.blo.domain.blog.presentation.dto.request.BlogTagUpdateRequest
 
 interface BlogTestFunction {
     fun initialize()
-    fun createAndReturnBlog(account: Account): Blog
     fun createAndSaveInDBandReturnBlog(account: Account): Blog
     fun createBlogCreateRequest(): BlogCreateRequest
     fun createBlogCreateRequestWithNullIntroduction(): BlogCreateRequest

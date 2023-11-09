@@ -42,6 +42,7 @@ class AuthTests @Autowired constructor(
         accountTestFunction.createAndSaveInDBAndReturnAccount()
 
         val loginRequest = authTestFunction.createLoginRequest()
-        authService.login(loginRequest)
+
+        Assertions.assertDoesNotThrow(fun() { authService.login(loginRequest) })
     }
 }

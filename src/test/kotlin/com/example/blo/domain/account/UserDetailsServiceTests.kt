@@ -34,7 +34,7 @@ class UserDetailsServiceTests @Autowired constructor(
     @Test
     fun userDetailsServiceLoadNotExistsAccount() {
         Assertions.assertThrows(
-            AccountNotFoundException::class.java,
+            AccountNotFoundException.javaClass,
             fun() { userDetailsService.loadUserByUsername("@") }
         )
     }

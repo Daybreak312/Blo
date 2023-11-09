@@ -22,13 +22,11 @@ class BlogTestFunctionImpl(
         blogRepository.deleteByName(BlogTestEnv.NAME)
     }
 
-    override fun createAndReturnBlog(account: Account): Blog =
-        Blog(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, account)
-
     override fun createAndSaveInDBandReturnBlog(account: Account): Blog {
-        val blog = createAndReturnBlog(account)
+        val blog = Blog(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, account)
+        blogRepository.save(blog)
         tagConnector.connectTagsToBlog(TagTestEnv.TAGS, blog)
-        return blogRepository.save(blog)
+        return blog
     }
 
     override fun createBlogCreateRequest(): BlogCreateRequest =

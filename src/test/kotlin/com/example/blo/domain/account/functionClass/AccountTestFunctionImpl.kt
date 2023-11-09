@@ -52,6 +52,14 @@ class AccountTestFunctionImpl(
         return account
     }
 
+    override fun createAndSaveInDBContextAndReturnAnotherAccount(): Account {
+        val account = createAndReturnAccount()
+        account.updateAccountId(AccountTestEnv.ACCOUNT_ID_2)
+        saveAccountInRepository(account)
+        saveAccountInSecurityContextAuthentication(account)
+        return account
+    }
+
     private fun saveAccountInRepository(account: Account) {
         accountRepository.save(account)
     }
