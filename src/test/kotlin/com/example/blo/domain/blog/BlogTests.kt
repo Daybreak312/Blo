@@ -28,8 +28,8 @@ class BlogTests @Autowired constructor(
 ) {
 
     @Transactional
-    @BeforeEach
     @AfterEach
+    @BeforeEach
     fun initialize() {
         accountTestFunction.initialize()
         blogTestFunction.initialize()
