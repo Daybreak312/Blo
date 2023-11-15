@@ -29,6 +29,14 @@ class BlogTestFunctionImpl(
         return blog
     }
 
+    override fun createAndSaveInDBandReturnBlogWithUpdatedName(account: Account): Blog {
+        val blog = Blog(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, account)
+        blog.updateName(BlogTestEnv.NAME_UPDATE)
+        blogRepository.save(blog)
+        tagConnector.connectTagsToBlog(TagTestEnv.TAGS, blog)
+        return blog
+    }
+
     override fun createBlogCreateRequest(): BlogCreateRequest =
         BlogCreateRequest(BlogTestEnv.NAME, BlogTestEnv.INTRODUCTION, TagTestEnv.TAGS)
 
