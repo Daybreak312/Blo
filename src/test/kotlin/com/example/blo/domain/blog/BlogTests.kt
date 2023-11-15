@@ -1,11 +1,14 @@
 package com.example.blo.domain.blog
 
 import com.example.blo.domain.account.functionClass.AccountTestFunction
+import com.example.blo.domain.blog.entity.Blog
 import com.example.blo.domain.blog.function.BlogTestFunction
 import com.example.blo.domain.blog.persistence.BlogRepository
 import com.example.blo.domain.blog.port.`in`.BlogCreateUsecase
 import com.example.blo.domain.blog.port.`in`.BlogDeleteUsecase
+import com.example.blo.domain.blog.port.`in`.BlogFindUsecase
 import com.example.blo.domain.blog.port.`in`.BlogUpdateUsecase
+import com.example.blo.domain.blog.presentation.dto.response.BlogSimpleResponse
 import com.example.blo.domain.blog.service.exception.BlogNoPermissionException
 import com.example.blo.domain.blog.service.exception.BlogNotFoundException
 import com.example.blo.domain.blog.service.function.BlogFunction
@@ -32,6 +35,7 @@ class BlogTests @Autowired constructor(
     private val blogCreateService: BlogCreateUsecase,
     private val blogUpdateService: BlogUpdateUsecase,
     private val blogDeleteService: BlogDeleteUsecase,
+    private val blogFindService: BlogFindUsecase,
     private val tagExtractor: TagExtractUsecase
 ) {
 
@@ -135,5 +139,36 @@ class BlogTests @Autowired constructor(
         accountTestFunction.createAndSaveInDBContextAndReturnAnotherAccount()
 
         Assertions.assertThrows(BlogNoPermissionException.javaClass, fun() { blogFunction.verifyMasterOfBlog(blog) })
+    }
+
+    @Test
+    fun findBlogSimpleListTest() {
+        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        val blog1 = blogTestFunction.createAndSaveInDBandReturnBlogWithUpdatedName(testerAccount)
+        val blog2 = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+        val blogSimpleListResponse = blogFindService.findBlogList()
+        Assertions.assertTrue(
+            equalsBlogAndResponse(blog1, blogSimpleListResponse.blogSimpleResponseList[0]) &&
+                    equalsBlogAndResponse(blog2, blogSimpleListResponse.blogSimpleResponseList[1])
+        )
+    }
+
+    private fun equalsBlogAndResponse(blog: Blog, blogResponse: BlogSimpleResponse): Boolean =
+        blog.name == blogResponse.name &&
+                blog.id == blogResponse.id &&
+                blog.introduction == blogResponse.introduction &&
+                blog.opener.name == blogResponse.opener.name
+
+    @Test
+    fun findBlogDetailTest() {
+        val testerAccount = accountTestFunction.createAndSaveInDBContextAndReturnAccount()
+        val blog = blogTestFunction.createAndSaveInDBandReturnBlog(testerAccount)
+        val blogDetailResponse = blogFindService.findBlogDetail(blog.name)
+
+        Assertions.assertTrue(
+            blog.name == blogDetailResponse.name &&
+                    blog.introduction == blogDetailResponse.introduction &&
+                    blog.opener.name == blogDetailResponse.opener.name
+        )
     }
 }
