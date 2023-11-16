@@ -10,7 +10,7 @@ class Blog(
     name: String,
     introduction: String?,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     val opener: Account
 ) : BaseTimeEntity() {

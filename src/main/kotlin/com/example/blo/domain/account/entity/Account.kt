@@ -46,7 +46,7 @@ class Account(
     @Column(length = 5)
     val role: Role = role
 
-    @OneToMany(mappedBy = "opener")
+    @OneToMany(mappedBy = "opener", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
     val blogs: List<Blog> = arrayListOf()
 
     var isBanned: Boolean = false
