@@ -9,7 +9,7 @@ data class Tag(
     @Column(length = 30)
     val name: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = TableNameEnv.accountTable)
     val firstUser: Account
 ) {
