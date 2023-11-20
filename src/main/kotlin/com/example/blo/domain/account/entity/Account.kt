@@ -17,7 +17,7 @@ class Account(
     name: String,
     accountId: String,
     password: String,
-    role: Role,
+    role: Role = Role.COMMON,
     introduction: String = "",
     id: Long? = null
 ) : UserDetails, BaseTimeEntity() {
@@ -29,6 +29,7 @@ class Account(
     @Column(unique = true, length = 200)
     var accountId: String = accountId
         protected set
+
     fun updateAccountId(accountId: String) {
         this.accountId = accountId
     }
@@ -43,6 +44,10 @@ class Account(
     var introduction: String = introduction
         protected set
 
+    fun updateIntroduction(introduction: String) {
+        this.introduction = introduction
+    }
+
     @Column(length = 5)
     val role: Role = role
 
@@ -51,18 +56,36 @@ class Account(
 
     var isBanned: Boolean = false
         protected set
-    fun banAccount() { this.isBanned = true }
-    fun pardonAccount() { this.isBanned = false }
+
+    fun banAccount() {
+        this.isBanned = true
+    }
+
+    fun pardonAccount() {
+        this.isBanned = false
+    }
 
     var isDormant: Boolean = false
         protected set
-    fun dormantAccount() { this.isDormant = true }
-    fun activeAccount() { this.isDormant = false }
+
+    fun dormantAccount() {
+        this.isDormant = true
+    }
+
+    fun activeAccount() {
+        this.isDormant = false
+    }
 
     var isDeleted: Boolean = false
         protected set
-    fun deleteAccount() { this.isDeleted = true }
-    fun restoreAccount() { this.isDeleted = false }
+
+    fun deleteAccount() {
+        this.isDeleted = true
+    }
+
+    fun restoreAccount() {
+        this.isDeleted = false
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
