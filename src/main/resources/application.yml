@@ -17,17 +17,6 @@ spring:
     host: localhost
     port: 6379
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${OAUTH_GOOGLE_CLIENT_ID}
-            client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
-            scope:
-              - email
-              - profile
-
 jwt:
   secret-key: ${JWT_SECRET_KEY}
   access-token-exp: ${JWT_ACCESS_TOKEN_EXP}
